@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Async ball</title>
+    <style>
+      .ball {
+        transition: all linear 1s;
+      }
+      .ball1 {
+        width: 50px;
+        height: 50px;
+        background-color: aqua;
+        border-radius: 50%;
+        transform: translateX(0);
+      }
+      .ball2 {
+        width: 50px;
+        height: 50px;
+        background-color: darkorange;
+        border-radius: 50%;
+        transform: translateX(0);
+      }
+      .ball3 {
+        width: 50px;
+        height: 50px;
+        background-color: slategrey;
+        border-radius: 50%;
+        transform: translateX(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ball ball1"></div>
+    <div class="ball ball2"></div>
+    <div class="ball ball3"></div>
+    <button>callback</button>
+    <button>promise</button>
+    <button>await</button>
+    <script>
+      const ball1 = document.querySelector(".ball1");
+      const ball2 = document.querySelector(".ball2");
+      const ball3 = document.querySelector(".ball3");
+      let btn = document.querySelectorAll("button");
+      let ballMove = (ball) => (ball.style.transform = "translateX(100px)");
+      // demo 使用时只把相应注释取消就行
+
+      // callback 用法的 dem
+      btn[0].addEventListener("click", function move(params) {
+        ballMove(ball1);
+        setTimeout(() => {
+          ballMove(ball2);
+          setTimeout(() => ballMove(ball3), 1000);
+        }, 1000);
+      });
+
+      // T;
+
+      // Promise 用法的 demo
+      btn[1].addEventListener("click", function (params) {
+        const p = new Promise((resolve) => {
+          ballMove(ball1);
+          setTimeout(() => {
+            ballMove(ball2);
+            resolve(1);
+          }, 1000);
+        }).then((res) => {
+          setTimeout(() => {
+            ballMove(ball3);
+          }, 1000);
+        });
+        // TODO
+      });
+
+      btn[2].addEventListener("click", async function (params) {
+        // async/await 用法的 demo
+        let p1 = new Promise((resolve) => {
+          ballMove(ball1);
+          setTimeout(() => {
+            ballMove(ball2);
+            resolve(1);
+          }, 1000);
+        }).then((res) => {
+          setTimeout(() => {
+            ballMove(ball3);
+          }, 1000);
+        });
+        let c = await p1;
+        console.log(c);
+        // TODO
+      });
+    </script>
+  </body>
+</html>
